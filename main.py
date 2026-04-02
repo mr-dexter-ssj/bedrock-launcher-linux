@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QApplication, QLabel, QMessageBox, QMainWindow, QP
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Slot, Qt
 
-#-----GUI Definition-----
+#-----GUI Definition----- Note: Run not with venv, run with system'Python to see breeze
 class WelcomeInstallScreen(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()

@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="default">
+    <file>document-import.svg</file>
+    <file>open-link.svg</file>
+    <file>edit-undo.svg</file>
+    <file>help-contents.svg</file>
+    <file>help-about.svg</file>
+    <file>go-next.svg</file>
+    <file>document-open.svg</file>
+  </qresource>
+</RCC>
