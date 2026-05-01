@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QLabel" name="welcomeLabel">
@@ -39,26 +39,58 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Welcome to Bedrock Launcher&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QLabel" name="versionLabel">
      <property name="geometry">
       <rect>
-       <x>137</x>
-       <y>139</y>
-       <width>131</width>
-       <height>81</height>
+       <x>6</x>
+       <y>280</y>
+       <width>311</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
-      <string extracomment="Start installation process">Install</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;Replace in py with: Bedrock Launcher $VERSION&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
+     <property name="indent">
+      <number>-1</number>
+     </property>
+    </widget>
+    <widget class="QCommandLinkButton" name="commandLinkButton">
+     <property name="geometry">
+      <rect>
+       <x>81</x>
+       <y>130</y>
+       <width>235</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Start installation</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="nextButton_5">
+     <property name="geometry">
+      <rect>
+       <x>259</x>
+       <y>281</y>
+       <width>135</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Documentation</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>../assets/go-next.svg</normaloff>../assets/go-next.svg</iconset>
+      <iconset resource="../assets/icons.qrc">
+       <normaloff>:/default/open-link.svg</normaloff>:/default/open-link.svg</iconset>
      </property>
      <property name="iconSize">
       <size>
-       <width>35</width>
-       <height>35</height>
+       <width>18</width>
+       <height>18</height>
       </size>
      </property>
      <property name="checkable">
@@ -74,51 +106,13 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="distributionLabel">
-     <property name="geometry">
-      <rect>
-       <x>6</x>
-       <y>280</y>
-       <width>311</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;Replace in py with: Distribution method: $DIST_METHOD&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <property name="indent">
-      <number>-1</number>
-     </property>
-    </widget>
-    <widget class="QLabel" name="versionLabel">
-     <property name="geometry">
-      <rect>
-       <x>6</x>
-       <y>290</y>
-       <width>311</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;Replace in py with: Bedrock Launcher $VERSION&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <property name="indent">
-      <number>-1</number>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="page_2">
     <widget class="QLineEdit" name="setupFilesRequesterLineEdit">
      <property name="geometry">
       <rect>
        <x>43</x>
-       <y>157</y>
+       <y>94</y>
        <width>256</width>
        <height>32</height>
       </rect>
@@ -137,7 +131,7 @@
      <property name="geometry">
       <rect>
        <x>45</x>
-       <y>103</y>
+       <y>40</y>
        <width>318</width>
        <height>39</height>
       </rect>
@@ -215,7 +209,7 @@
      <property name="geometry">
       <rect>
        <x>302</x>
-       <y>151</y>
+       <y>88</y>
        <width>79</width>
        <height>44</height>
       </rect>
@@ -227,6 +221,86 @@
       <bool>false</bool>
      </property>
     </widget>
+    <widget class="QLabel" name="installationOptionsDescLabel">
+     <property name="geometry">
+      <rect>
+       <x>144</x>
+       <y>142</y>
+       <width>121</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:9pt; color:#b5b5b5;&quot;&gt;Installation options&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="Line" name="installationOptionsLine">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>144</y>
+       <width>394</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>25</x>
+       <y>162</y>
+       <width>58</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Name:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="geometry">
+      <rect>
+       <x>24</x>
+       <y>183</y>
+       <width>265</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="dragEnabled">
+      <bool>false</bool>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>My Cool Installation</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <zorder>setupFilesRequesterLineEdit</zorder>
+    <zorder>descLabel</zorder>
+    <zorder>optLine</zorder>
+    <zorder>helpButton</zorder>
+    <zorder>nextButton</zorder>
+    <zorder>setupFilesRequesterButton</zorder>
+    <zorder>installationOptionsLine</zorder>
+    <zorder>installationOptionsDescLabel</zorder>
+    <zorder>label_9</zorder>
+    <zorder>lineEdit</zorder>
    </widget>
    <widget class="QWidget" name="page_5">
     <widget class="Line" name="optLine_2">

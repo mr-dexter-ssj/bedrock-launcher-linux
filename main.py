@@ -1,27 +1,29 @@
-from pathlib import Path
-from PySide6 import QtWidgets
-from PySide6.QtWidgets import QApplication, QLabel, QMessageBox, QMainWindow, QPushButton, QGridLayout
-from PySide6.QtGui import QIcon
-from PySide6.QtCore import Slot, Qt
+# This is main.py
+# It's intended to detect if the welcome screen was shown and then launch the Installation flow or the Launcher itself
+# The rest of the logic will be called from here to the respective functions in different files
 
-#-----GUI Definition----- Note: Run not with venv, run with system'Python to see breeze
-class WelcomeInstallScreen(QtWidgets.QWidget):
-    def __init__(self):
-        super().__init__()
+import json
+import os
+from functions.setup import startSetup, genConfig
 
-        self.setWindowTitle("Bedrock Launcher")
-        self.resize(600, 550)
-        layout = QGridLayout(self)
-        welcomeLabel = QLabel("Welcome to Bedrock Launcher")
-        welcomeLabel.setAlignment(Qt.AlignCenter)
-        startButton = QPushButton("Start")
-        startButton.setIcon(QIcon.fromTheme("document-save"))
+#Check if config dir exists & if config needs (re)generation
+configPath = "~/.bedrocklauncher" #Remember to change this to the final brand name
+if str(os.path.exists(os.path.expanduser(configPath))) == "False" :
+    print("Doing startSetup")
+    startSetup(configPath)
 
-        layout.addWidget(welcomeLabel, 0 ,0)
-        layout.addWidget(startButton, 1, 0)
+if str(os.path.isfile(os.path.expanduser(configPath + "/config.json"))) == "False" :
+    print("Doing genConfig")
+    genConfig(configPath)
 
-app = QApplication()
-app.setStyle("breeze")
-window = WelcomeInstallScreen()
-window.show()
-app.exec()
+# Check if the installation flow was finished
+configJson = open(os.path.expanduser(configPath + "/config.json"))
+configDict = json.loads(configJson)
+if configDict["configFlowFinished"] == "false":
+    #start config flow
+    print("Should start config window")
+else:
+    #skip to launch()
+
+
+

@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="default">
+    <file>folder.svg</file>
+    <file>copy-path.svg</file>
+    <file>edit-copy.svg</file>
     <file>dialog-ok.svg</file>
     <file>dialog-cancel.svg</file>
     <file>arrow-right-dark.svg</file>
@@ -10,5 +13,11 @@
     <file>help-about.svg</file>
     <file>go-next.svg</file>
     <file>document-open.svg</file>
+  </qresource>
+  <qresource prefix="images">
+    <file>images/mc-button-right.png</file>
+    <file>images/Bedrock_Edition_2.svg</file>
+    <file>images/mc-button-left.png</file>
+    <file>images/placeholder-art.jpg</file>
   </qresource>
 </RCC>
