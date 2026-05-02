@@ -67,11 +67,11 @@
       <property name="tabsClosable">
        <bool>false</bool>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="HomeTab">
        <attribute name="title">
         <string>Home</string>
        </attribute>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="backgroundImage">
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -93,7 +93,7 @@
          <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="mcLogo">
         <property name="geometry">
          <rect>
           <x>271</x>
@@ -112,7 +112,7 @@
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QWidget" name="widget" native="true">
+       <widget class="QWidget" name="quickPlayContainer" native="true">
         <property name="geometry">
          <rect>
           <x>606</x>
@@ -124,7 +124,7 @@
         <property name="autoFillBackground">
          <bool>true</bool>
         </property>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="quickPlayTitleTemporary">
          <property name="geometry">
           <rect>
            <x>73</x>
@@ -137,7 +137,7 @@
           <string>Quick Play</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="quickPlayNotImplemented">
          <property name="geometry">
           <rect>
            <x>36</x>
@@ -151,7 +151,7 @@
          </property>
         </widget>
        </widget>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="playButton">
         <property name="geometry">
          <rect>
           <x>290</x>
@@ -176,7 +176,7 @@
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="versionSelector">
         <property name="geometry">
          <rect>
           <x>402</x>
@@ -208,7 +208,7 @@ QComboBox::drop-down {
          <string>No versions</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="newsTitle">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -221,7 +221,7 @@ QComboBox::drop-down {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;News&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="newsNotImplemented">
         <property name="geometry">
          <rect>
           <x>215</x>
@@ -234,7 +234,7 @@ QComboBox::drop-down {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;News not implemented yet.&lt;br/&gt;If you want, you can contribute in the GitHub repository.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="contributeButton">
         <property name="geometry">
          <rect>
           <x>304</x>
@@ -283,7 +283,7 @@ QComboBox::drop-down {
            <height>566</height>
           </rect>
          </property>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="searchBar">
           <property name="geometry">
            <rect>
             <x>11</x>
@@ -299,7 +299,7 @@ QComboBox::drop-down {
            <string>Search</string>
           </property>
          </widget>
-         <widget class="QComboBox" name="comboBox_2">
+         <widget class="QComboBox" name="logsSelector">
           <property name="geometry">
            <rect>
             <x>9</x>
@@ -312,7 +312,7 @@ QComboBox::drop-down {
            <string>&lt;no logs found&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="label_7">
+         <widget class="QLabel" name="logsTitle">
           <property name="geometry">
            <rect>
             <x>13</x>
@@ -325,7 +325,7 @@ QComboBox::drop-down {
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Logs&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="openExternalButton">
           <property name="geometry">
            <rect>
             <x>170</x>
@@ -348,7 +348,7 @@ QComboBox::drop-down {
            </size>
           </property>
          </widget>
-         <widget class="QLabel" name="label_8">
+         <widget class="QLabel" name="mcLogsTitle">
           <property name="geometry">
            <rect>
             <x>13</x>
@@ -361,7 +361,7 @@ QComboBox::drop-down {
            <string>Minecraft Logs</string>
           </property>
          </widget>
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="autoScroll">
           <property name="geometry">
            <rect>
             <x>676</x>
@@ -377,7 +377,7 @@ QComboBox::drop-down {
            <bool>true</bool>
           </property>
          </widget>
-         <widget class="QPushButton" name="pushButton_6">
+         <widget class="QPushButton" name="openContainingFolderButton">
           <property name="geometry">
            <rect>
             <x>477</x>
@@ -400,7 +400,7 @@ QComboBox::drop-down {
            </size>
           </property>
          </widget>
-         <widget class="QPushButton" name="pushButton_5">
+         <widget class="QPushButton" name="copyPathButton">
           <property name="geometry">
            <rect>
             <x>360</x>
@@ -423,7 +423,7 @@ QComboBox::drop-down {
            </size>
           </property>
          </widget>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="copyClipboardButton">
           <property name="geometry">
            <rect>
             <x>9</x>
@@ -464,19 +464,6 @@ QComboBox::drop-down {
         <string>$USER</string>
        </attribute>
       </widget>
-     </widget>
-     <widget class="QWidget" name="widget_2" native="true">
-      <property name="geometry">
-       <rect>
-        <x>634</x>
-        <y>7</y>
-        <width>143</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
-      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="page_2"/>

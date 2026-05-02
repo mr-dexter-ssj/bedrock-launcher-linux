@@ -19,13 +19,13 @@
      <x>0</x>
      <y>0</y>
      <width>403</width>
-     <height>321</height>
+     <height>469</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>5</number>
    </property>
-   <widget class="QWidget" name="page">
+   <widget class="QWidget" name="startPage">
     <widget class="QLabel" name="welcomeLabel">
      <property name="geometry">
       <rect>
@@ -71,7 +71,7 @@
       <string>Start installation</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="nextButton_5">
+    <widget class="QPushButton" name="documentationButton">
      <property name="geometry">
       <rect>
        <x>259</x>
@@ -107,7 +107,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page_2">
+   <widget class="QWidget" name="fileImportPage">
     <widget class="QLineEdit" name="setupFilesRequesterLineEdit">
      <property name="geometry">
       <rect>
@@ -256,7 +256,7 @@
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="label_9">
+    <widget class="QLabel" name="nameInstallationLabel">
      <property name="geometry">
       <rect>
        <x>25</x>
@@ -269,7 +269,7 @@
       <string>Name:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="nameLineEdit">
      <property name="geometry">
       <rect>
        <x>24</x>
@@ -299,10 +299,10 @@
     <zorder>setupFilesRequesterButton</zorder>
     <zorder>installationOptionsLine</zorder>
     <zorder>installationOptionsDescLabel</zorder>
-    <zorder>label_9</zorder>
-    <zorder>lineEdit</zorder>
+    <zorder>nameInstallationLabel</zorder>
+    <zorder>nameLineEdit</zorder>
    </widget>
-   <widget class="QWidget" name="page_5">
+   <widget class="QWidget" name="onlineConsentPage">
     <widget class="Line" name="optLine_2">
      <property name="geometry">
       <rect>
@@ -351,7 +351,7 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="helpButton_2">
+    <widget class="QPushButton" name="learnMoreButton">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -381,7 +381,7 @@
       </size>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="mainTitle">
      <property name="geometry">
       <rect>
        <x>134</x>
@@ -394,7 +394,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Online features&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="descOnlineLabel">
      <property name="geometry">
       <rect>
        <x>22</x>
@@ -410,7 +410,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="proxyPassConsentCheck">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -429,9 +429,28 @@
       <bool>true</bool>
      </property>
     </widget>
+    <widget class="QCheckBox" name="xcurlConsentCheck">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>210</y>
+       <width>372</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Install extra dlls to allow connecting online (XCurl.dll)</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
-   <widget class="QWidget" name="page_4">
-    <widget class="Line" name="line_3">
+   <widget class="QWidget" name="installProcessPage">
+    <widget class="Line" name="optLine_3">
      <property name="geometry">
       <rect>
        <x>5</x>
@@ -444,7 +463,7 @@
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="titleLabel">
      <property name="geometry">
       <rect>
        <x>151</x>
@@ -457,7 +476,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Installing&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="progressLabel">
      <property name="geometry">
       <rect>
        <x>16</x>
@@ -473,7 +492,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QTextEdit" name="outputView">
      <property name="geometry">
       <rect>
        <x>27</x>
@@ -502,7 +521,7 @@
       <number>0</number>
      </property>
     </widget>
-    <widget class="QPushButton" name="nextButton_3">
+    <widget class="QPushButton" name="cancelButton">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -538,8 +557,8 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page_6">
-    <widget class="Line" name="line_4">
+   <widget class="QWidget" name="allDonePage">
+    <widget class="Line" name="optLine_4">
      <property name="geometry">
       <rect>
        <x>5</x>
@@ -552,7 +571,7 @@
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="mainTitleAllDone">
      <property name="geometry">
       <rect>
        <x>151</x>
@@ -565,7 +584,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;All Done!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="descLabelAllDone">
      <property name="geometry">
       <rect>
        <x>22</x>
@@ -581,7 +600,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_2">
+    <widget class="QCheckBox" name="startLauncherCheckbox">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -600,7 +619,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="nextButton_4">
+    <widget class="QPushButton" name="finishButton">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -636,8 +655,8 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page_3">
-    <widget class="Line" name="line_2">
+   <widget class="QWidget" name="helpPage">
+    <widget class="Line" name="optLine_5">
      <property name="geometry">
       <rect>
        <x>5</x>
@@ -650,7 +669,7 @@
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="backButton">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -679,7 +698,7 @@
        <x>10</x>
        <y>5</y>
        <width>392</width>
-       <height>238</height>
+       <height>249</height>
       </rect>
      </property>
      <property name="widgetResizable">
@@ -691,10 +710,10 @@
         <x>0</x>
         <y>0</y>
         <width>392</width>
-        <height>238</height>
+        <height>249</height>
        </rect>
       </property>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="helpTitle">
        <property name="geometry">
         <rect>
          <x>142</x>
@@ -707,7 +726,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;Help&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="helpSubtitle">
        <property name="geometry">
         <rect>
          <x>3</x>
@@ -720,8 +739,107 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;How to obtain the necesary files for Minecraft Bedrock&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
+      <widget class="QLabel" name="instructions">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>119</y>
+         <width>354</width>
+         <height>45</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;1. In Windows, install Minecraft Bedrock through the store, Xbox app or the Launcher&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="instructions_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>166</y>
+         <width>354</width>
+         <height>45</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;2. Launch the game at least once. (You don't need to play, just launch the game until it reaches the title screen)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="instructions_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>217</y>
+         <width>354</width>
+         <height>45</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;3. Without restarting or turning off the PC, navigate here: &lt;span style=&quot; text-decoration: underline;&quot;&gt;C:\XboxGames\MinecraftForWindows\Content&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="instructions_4">
+       <property name="geometry">
+        <rect>
+         <x>7</x>
+         <y>269</y>
+         <width>354</width>
+         <height>73</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;4. Find &lt;span style=&quot; font-style:italic;&quot;&gt;Minecraft.Windows.exe&lt;/span&gt; and &lt;span style=&quot; font-weight:700;&quot;&gt;MOVE&lt;/span&gt; it to your desktop. Then &lt;span style=&quot; font-weight:700;&quot;&gt;COPY&lt;/span&gt; the .exe from your desktop back to the &lt;span style=&quot; font-style:italic;&quot;&gt;Content &lt;/span&gt;folder. (This is done to bypass Microslop's &amp;quot;DRM&amp;quot; and encryption)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="instructions_5">
+       <property name="geometry">
+        <rect>
+         <x>6</x>
+         <y>350</y>
+         <width>354</width>
+         <height>109</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;5. Copy the entire &lt;span style=&quot; font-style:italic;&quot;&gt;Content &lt;/span&gt;folder to Linux. You can do this with a USB, cloud service or a shared folder with your VM. If you dualboot, you can copy the &lt;span style=&quot; font-style:italic;&quot;&gt;Content &lt;/span&gt;folder to another location (like Downloads or Desktop), then access your Windows partition from Linux and copy the files.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="tutorialLink">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>66</y>
+         <width>354</width>
+         <height>45</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;A visual tutorial is available here (&lt;/span&gt;&lt;span style=&quot; font-size:8pt; font-style:italic;&quot;&gt;by @JutoTV&lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;): &lt;/span&gt;&lt;a href=&quot;https://youtu.be/m76O2cRIEnM?si=M5DfsWhjeQVGLIrF&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#1d99f3;&quot;&gt;https://youtu.be/m76O2cRIEnM?si=M5DfsWhjeQVGLIrF&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
      </widget>
     </widget>
+    <zorder>scrollArea</zorder>
+    <zorder>optLine_5</zorder>
+    <zorder>backButton</zorder>
    </widget>
   </widget>
  </widget>
