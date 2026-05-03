@@ -4,26 +4,19 @@
 
 import json
 import os
-from functions.setup import startSetup, genConfig
+from functions.setup import *
+from functions.first_launch import *
 
 #Check if config dir exists & if config needs (re)generation
 configPath = "~/.bedrocklauncher" #Remember to change this to the final brand name
 if str(os.path.exists(os.path.expanduser(configPath))) == "False" :
     print("Doing startSetup")
-    startSetup(configPath)
-
-if str(os.path.isfile(os.path.expanduser(configPath + "/config.json"))) == "False" :
-    print("Doing genConfig")
-    genConfig(configPath)
+    setup(configPath)
 
 # Check if the installation flow was finished
-configJson = open(os.path.expanduser(configPath + "/config.json"))
-configDict = json.loads(configJson)
-if configDict["configFlowFinished"] == "false":
-    #start config flow
-    print("Should start config window")
-else:
-    #skip to launch()
-
-
-
+installationFlowFile = "BLINSTALLDIRECTORY"
+if str(os.path.exists(installationFlowFile)) == "False":
+    print("Launching Wizard")
+    first_launch()
+#else:
+    #launcher()
