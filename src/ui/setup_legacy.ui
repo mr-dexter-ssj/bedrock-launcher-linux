@@ -42,7 +42,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="startPage">
     <widget class="QLabel" name="welcomeLabel">
@@ -61,14 +61,14 @@
     <widget class="QLabel" name="versionLabel">
      <property name="geometry">
       <rect>
-       <x>6</x>
-       <y>280</y>
+       <x>10</x>
+       <y>285</y>
        <width>311</width>
        <height>41</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;Replace in py with: Bedrock Launcher $VERSION&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;Bedrock Launcher {VERSION}&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="margin">
       <number>0</number>
@@ -131,7 +131,7 @@
      <property name="geometry">
       <rect>
        <x>43</x>
-       <y>94</y>
+       <y>78</y>
        <width>256</width>
        <height>32</height>
       </rect>
@@ -150,7 +150,7 @@
      <property name="geometry">
       <rect>
        <x>45</x>
-       <y>40</y>
+       <y>26</y>
        <width>318</width>
        <height>39</height>
       </rect>
@@ -228,7 +228,7 @@
      <property name="geometry">
       <rect>
        <x>302</x>
-       <y>88</y>
+       <y>72</y>
        <width>79</width>
        <height>44</height>
       </rect>
@@ -244,7 +244,7 @@
      <property name="geometry">
       <rect>
        <x>144</x>
-       <y>142</y>
+       <y>128</y>
        <width>121</width>
        <height>22</height>
       </rect>
@@ -266,7 +266,7 @@
      <property name="geometry">
       <rect>
        <x>5</x>
-       <y>144</y>
+       <y>128</y>
        <width>394</width>
        <height>20</height>
       </rect>
@@ -279,7 +279,7 @@
      <property name="geometry">
       <rect>
        <x>25</x>
-       <y>162</y>
+       <y>150</y>
        <width>58</width>
        <height>18</height>
       </rect>
@@ -292,8 +292,8 @@
      <property name="geometry">
       <rect>
        <x>24</x>
-       <y>183</y>
-       <width>265</width>
+       <y>173</y>
+       <width>192</width>
        <height>30</height>
       </rect>
      </property>
@@ -310,6 +310,92 @@
       <bool>false</bool>
      </property>
     </widget>
+    <widget class="QLabel" name="nameInstallationLabel_2">
+     <property name="geometry">
+      <rect>
+       <x>25</x>
+       <y>211</y>
+       <width>58</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Version:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox">
+     <property name="geometry">
+      <rect>
+       <x>24</x>
+       <y>231</y>
+       <width>87</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>Select...</string>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="toolButton">
+     <property name="geometry">
+      <rect>
+       <x>299</x>
+       <y>175</y>
+       <width>74</width>
+       <height>74</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>74</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../assets/icons.qrc">
+       <normaloff>:/images/images/app-icon.png</normaloff>:/images/images/app-icon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>50</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <property name="popupMode">
+      <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
+     </property>
+     <property name="toolButtonStyle">
+      <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
+     </property>
+     <property name="autoRaise">
+      <bool>false</bool>
+     </property>
+     <property name="arrowType">
+      <enum>Qt::ArrowType::NoArrow</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="nameInstallationLabel_3">
+     <property name="geometry">
+      <rect>
+       <x>304</x>
+       <y>148</y>
+       <width>58</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Icon&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
     <zorder>setupFilesRequesterLineEdit</zorder>
     <zorder>descLabel</zorder>
     <zorder>optLine</zorder>
@@ -320,6 +406,10 @@
     <zorder>installationOptionsDescLabel</zorder>
     <zorder>nameInstallationLabel</zorder>
     <zorder>nameLineEdit</zorder>
+    <zorder>nameInstallationLabel_2</zorder>
+    <zorder>comboBox</zorder>
+    <zorder>toolButton</zorder>
+    <zorder>nameInstallationLabel_3</zorder>
    </widget>
    <widget class="QWidget" name="onlineConsentPage">
     <widget class="Line" name="optLine_2">
@@ -345,7 +435,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Install</string>
+      <string>Next</string>
      </property>
      <property name="icon">
       <iconset resource="../assets/icons.qrc">
@@ -467,7 +557,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="helpButton_2">
+    <widget class="QPushButton" name="backButton_2">
      <property name="geometry">
       <rect>
        <x>220</x>
@@ -482,6 +572,121 @@
      <property name="icon">
       <iconset resource="../assets/icons.qrc">
        <normaloff>:/default/go-previous.svg</normaloff>:/default/go-previous.svg</iconset>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page">
+    <widget class="QLabel" name="mainTitle_2">
+     <property name="geometry">
+      <rect>
+       <x>134</x>
+       <y>22</y>
+       <width>142</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Education Edition&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="Line" name="optLine_6">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>260</y>
+       <width>394</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="backButton_3">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>281</y>
+       <width>84</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Back</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../assets/icons.qrc">
+       <normaloff>:/default/go-previous.svg</normaloff>:/default/go-previous.svg</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="installButton">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>281</y>
+       <width>84</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Install</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../assets/icons.qrc">
+       <normaloff>:/default/go-next.svg</normaloff>:/default/go-next.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>16</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="descOnlineLabel_2">
+     <property name="geometry">
+      <rect>
+       <x>22</x>
+       <y>51</y>
+       <width>359</width>
+       <height>106</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Minecraft: Education Edition is a version of the game directed to schools and educators. To play the full version you need a Microsoft for Education account managed by an official institution. However, you can play several demo maps without an account.&lt;br/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(This version is automatically downloaded, no files required)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="proxyPassConsentCheck_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>237</y>
+       <width>372</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Download Minecraft: Education Edition</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>

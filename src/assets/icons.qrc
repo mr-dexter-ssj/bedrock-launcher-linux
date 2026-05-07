@@ -15,6 +15,10 @@
     <file>document-open.svg</file>
   </qresource>
   <qresource prefix="images">
+    <file>images/help-creeper.png</file>
+    <file>images/proxypass.png</file>
+    <file>images/mc-education.png</file>
+    <file>images/minecraft-folder.png</file>
     <file>images/app-icon.png</file>
     <file>images/mc-button-right.png</file>
     <file>images/Bedrock_Edition_2.svg</file>
