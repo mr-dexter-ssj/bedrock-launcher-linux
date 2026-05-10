@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WelcomeScreen</class>
- <widget class="QDialog" name="WelcomeScreen">
+ <class>welcomeScreen</class>
+ <widget class="QDialog" name="welcomeScreen">
   <property name="windowModality">
    <enum>Qt::WindowModality::WindowModal</enum>
   </property>
@@ -20,6 +20,12 @@
    </size>
   </property>
   <property name="maximumSize">
+   <size>
+    <width>473</width>
+    <height>411</height>
+   </size>
+  </property>
+  <property name="baseSize">
    <size>
     <width>473</width>
     <height>411</height>
@@ -127,7 +133,7 @@
     </widget>
    </widget>
    <widget class="QWidget" name="fileImportPage">
-    <widget class="QLineEdit" name="setupFilesRequesterLineEdit">
+    <widget class="QLineEdit" name="pathFileLineEdit">
      <property name="geometry">
       <rect>
        <x>137</x>
@@ -224,7 +230,7 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QDialogButtonBox" name="setupFilesRequesterButton">
+    <widget class="QDialogButtonBox" name="openFileButton">
      <property name="geometry">
       <rect>
        <x>381</x>
@@ -310,7 +316,7 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="nameInstallationLabel_2">
+    <widget class="QLabel" name="versionInstallationLabel">
      <property name="geometry">
       <rect>
        <x>147</x>
@@ -323,7 +329,7 @@
       <string>Version:</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="versionComboBox">
      <property name="geometry">
       <rect>
        <x>146</x>
@@ -336,7 +342,7 @@
       <string>Select...</string>
      </property>
     </widget>
-    <widget class="QToolButton" name="toolButton">
+    <widget class="QToolButton" name="iconSelector">
      <property name="geometry">
       <rect>
        <x>365</x>
@@ -383,7 +389,7 @@
       <enum>Qt::ArrowType::NoArrow</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="nameInstallationLabel_3">
+    <widget class="QLabel" name="iconInstallationLabel">
      <property name="geometry">
       <rect>
        <x>373</x>
@@ -396,7 +402,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Icon&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="imageArea_2">
      <property name="geometry">
       <rect>
        <x>4</x>
@@ -429,21 +435,21 @@ border-right: 1px solid #4b4b4b</string>
       <string/>
      </property>
     </widget>
-    <zorder>setupFilesRequesterLineEdit</zorder>
+    <zorder>pathFileLineEdit</zorder>
     <zorder>descLabel</zorder>
     <zorder>optLine</zorder>
     <zorder>helpButton</zorder>
     <zorder>nextButton</zorder>
-    <zorder>setupFilesRequesterButton</zorder>
+    <zorder>openFileButton</zorder>
     <zorder>installationOptionsLine</zorder>
     <zorder>installationOptionsDescLabel</zorder>
     <zorder>nameInstallationLabel</zorder>
     <zorder>nameLineEdit</zorder>
-    <zorder>nameInstallationLabel_2</zorder>
-    <zorder>comboBox</zorder>
-    <zorder>toolButton</zorder>
-    <zorder>nameInstallationLabel_3</zorder>
-    <zorder>label</zorder>
+    <zorder>versionInstallationLabel</zorder>
+    <zorder>versionComboBox</zorder>
+    <zorder>iconSelector</zorder>
+    <zorder>iconInstallationLabel</zorder>
+    <zorder>imageArea_2</zorder>
     <zorder>minecraftFolderImage</zorder>
    </widget>
    <widget class="QWidget" name="onlineConsentPage">
@@ -609,7 +615,7 @@ border-right: 1px solid #4b4b4b</string>
        <normaloff>:/default/go-previous.svg</normaloff>:/default/go-previous.svg</iconset>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="imageArea_5">
      <property name="geometry">
       <rect>
        <x>4</x>
@@ -643,7 +649,7 @@ border-right: 1px solid #4b4b4b</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page">
+   <widget class="QWidget" name="educationEditionPage">
     <widget class="QLabel" name="mainTitle_2">
      <property name="geometry">
       <rect>
@@ -722,7 +728,7 @@ border-right: 1px solid #4b4b4b</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="descOnlineLabel_2">
+    <widget class="QLabel" name="descEducationLabel">
      <property name="geometry">
       <rect>
        <x>146</x>
@@ -738,7 +744,7 @@ border-right: 1px solid #4b4b4b</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QCheckBox" name="proxyPassConsentCheck_2">
+    <widget class="QCheckBox" name="educationConsentCheck">
      <property name="geometry">
       <rect>
        <x>137</x>
@@ -757,7 +763,7 @@ border-right: 1px solid #4b4b4b</string>
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="imageArea_6">
      <property name="geometry">
       <rect>
        <x>4</x>
@@ -774,7 +780,7 @@ border-right: 1px solid #4b4b4b</string>
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="proxypassImage_2">
+    <widget class="QLabel" name="educationImage">
      <property name="geometry">
       <rect>
        <x>14</x>
@@ -898,7 +904,7 @@ border-right: 1px solid #4b4b4b</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="imageArea_4">
      <property name="geometry">
       <rect>
        <x>4</x>
@@ -915,7 +921,7 @@ border-right: 1px solid #4b4b4b</string>
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="proxypassImage_3">
+    <widget class="QLabel" name="beLauncherImage_2">
      <property name="geometry">
       <rect>
        <x>14</x>
@@ -1029,7 +1035,7 @@ border-right: 1px solid #4b4b4b</string>
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="imageArea">
      <property name="geometry">
       <rect>
        <x>4</x>
@@ -1046,7 +1052,7 @@ border-right: 1px solid #4b4b4b</string>
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="proxypassImage_4">
+    <widget class="QLabel" name="beLauncherImage">
      <property name="geometry">
       <rect>
        <x>14</x>
@@ -1202,7 +1208,7 @@ border-right: 1px solid #4b4b4b</string>
       </layout>
      </widget>
     </widget>
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="imageArea_3">
      <property name="geometry">
       <rect>
        <x>4</x>
@@ -1219,13 +1225,13 @@ border-right: 1px solid #4b4b4b</string>
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="proxypassImage_5">
+    <widget class="QLabel" name="creeperHelpImage">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>105</y>
+       <y>86</y>
        <width>101</width>
-       <height>206</height>
+       <height>210</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -1237,9 +1243,9 @@ border-right: 1px solid #4b4b4b</string>
     </widget>
     <zorder>optLine_5</zorder>
     <zorder>backButton</zorder>
-    <zorder>label_6</zorder>
+    <zorder>imageArea_3</zorder>
     <zorder>scrollArea</zorder>
-    <zorder>proxypassImage_5</zorder>
+    <zorder>creeperHelpImage</zorder>
    </widget>
   </widget>
  </widget>
