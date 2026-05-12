@@ -8,7 +8,7 @@ import src.functions.assets
 def firstLaunch(beLauncherVersion):
     #Init stuff
     app = QApplication(sys.argv)
-    ui_file_name = "src/ui/setup-main.ui"
+    ui_file_name = "src/ui/setup.ui"
     ui_file = QFile(ui_file_name)
     if not ui_file.open(QIODevice.ReadOnly):
         print(f"Cannot open {ui_file_name}: {ui_file.errorString()}")
