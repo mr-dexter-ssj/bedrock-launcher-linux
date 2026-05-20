@@ -3,6 +3,7 @@ todo*
 .envrc
 .env
 test*
+auth.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

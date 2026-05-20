@@ -1,11 +1,12 @@
 import sys
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QFileDialog
-from PySide6.QtCore import QFile, QIODevice, Slot, QUrl
+from PySide6.QtCore import QFile, QIODevice, Slot, QUrl, QThreadPool
 from PySide6.QtGui import QDesktopServices
 import src.functions.assets
+from src.functions.install import install
 
-def firstLaunch(beLauncherVersion):
+def firstLaunch(beLauncherVersion, configPath):
     #Init stuff
     app = QApplication(sys.argv)
     ui_file_name = "src/ui/setup.ui"
@@ -20,6 +21,7 @@ def firstLaunch(beLauncherVersion):
         print(loader.errorString())
         sys.exit(-1)
 
+    window.threadpool = QThreadPool()
     #Configure the version label
     window.versionLabel.setText(window.versionLabel.text().format(beLauncherVersion))
     #Page 0 - Welcome screen
@@ -57,6 +59,11 @@ def firstLaunch(beLauncherVersion):
     window.nextButton_2.clicked.connect(nextPage)
     #Page 3 - Education Edition consent screen
     window.backButton_3.clicked.connect(goBack)
+    @Slot()
+    def startInstallation():
+        nextPage()
+        install(window, configPath, app)
+    window.installButton.clicked.connect(startInstallation)
     ###---install() is located in another file (****NOT IMPLEMENTED YET****!!!!!!!!!)
     #Page 4 - Install screen
     ###---Only button here is cancelButton, which interrupts install()

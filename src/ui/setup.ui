@@ -698,6 +698,22 @@ border-right: 1px solid #4b4b4b</string>
        <string/>
       </property>
      </widget>
+     <widget class="QLabel" name="descOnlineLabel_2">
+      <property name="geometry">
+       <rect>
+        <x>142</x>
+        <y>212</y>
+        <width>315</width>
+        <height>83</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Info: You need a Microsoft Account that owns Minecraft: Bedrock Edition to use this workaround. You need to sign in. Your auth details are stored in plain text.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="educationEditionPage">
      <widget class="QLabel" name="mainTitle_2">
