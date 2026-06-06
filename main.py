@@ -8,10 +8,13 @@ from src.functions.setup import *
 from src.functions.first_launch import *
 
 beLauncherVersion = "Alpha 0.1"
-
-#Check if config dir exists & if config needs (re)generation
+srcRoot = Path(__file__).resolve().parent
+print(str(srcRoot))
 configPath = os.path.expanduser("~/.bedrocklauncher") #Remember to change this to the final brand name
-if str(os.path.exists(os.path.expanduser(configPath))) == "False" :
+instancesDirectory = configPath + "/instances"
+instancesDb = configPath + "/instances.json"
+#Check if config dir exists & if config needs (re)generation
+if str(os.path.exists(configPath)) == "False" :
     print("Doing startSetup")
     setup(configPath)
 
@@ -19,6 +22,6 @@ if str(os.path.exists(os.path.expanduser(configPath))) == "False" :
 installationFlowFile = "BLINSTALLDIRECTORY"
 if str(os.path.exists(installationFlowFile)) == "False":
     print("Launching Wizard")
-    firstLaunch(beLauncherVersion, configPath)
+    firstLaunch(srcRoot, beLauncherVersion, configPath, instancesDirectory, instancesDb)
 #else:
     #launcher()

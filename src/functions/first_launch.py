@@ -1,16 +1,18 @@
 import sys
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QApplication, QFileDialog
-from PySide6.QtCore import QFile, QIODevice, Slot, QUrl, QThreadPool
-from PySide6.QtGui import QDesktopServices
+from PySide6.QtWidgets import QApplication, QFileDialog, QMenu
+from PySide6.QtCore import QFile, QIODevice, Slot, QUrl, QThreadPool, QSize
+from PySide6.QtGui import QDesktopServices, QIcon
 import src.functions.assets
 from src.functions.install import install
+import json
+from pathlib import Path
 
-def firstLaunch(beLauncherVersion, configPath):
+def firstLaunch(srcRoot, beLauncherVersion, configPath, instancesDirectory, instancesDb):
     #Init stuff
     app = QApplication(sys.argv)
-    ui_file_name = "src/ui/setup.ui"
-    ui_file = QFile(ui_file_name)
+    ui_file_name = Path(str(srcRoot) + "/src/ui/setup.ui").resolve()
+    ui_file = QFile(str(ui_file_name))
     if not ui_file.open(QIODevice.ReadOnly):
         print(f"Cannot open {ui_file_name}: {ui_file.errorString()}")
         sys.exit(-1)
@@ -22,6 +24,13 @@ def firstLaunch(beLauncherVersion, configPath):
         sys.exit(-1)
 
     window.threadpool = QThreadPool()
+
+    #####Pretty Error Handling#####
+    def errorHandler(e):
+        #Display error message (Not implemented)
+        print("An error has ocurred: " + str(e))
+        sys.exit(1)
+    
     #Configure the version label
     window.versionLabel.setText(window.versionLabel.text().format(beLauncherVersion))
     #Page 0 - Welcome screen
@@ -39,6 +48,21 @@ def firstLaunch(beLauncherVersion, configPath):
         selectedFolder = QFileDialog.getExistingDirectory(caption="Open Folder", dir="~")
         window.pathFolderLineEdit.setText(selectedFolder)
     window.openFolderButton.clicked.connect(openFolder)
+    window.iconSelectMenu = QMenu()
+    currentFile = Path(__file__).resolve()
+    iconListPath = currentFile.parent.parent / "assets" / "iconList.json"
+    try:
+        with open(iconListPath, "rt") as iconListJson:
+            iconList = iconListJson.read()
+            iconListDict = json.loads(iconList)
+            for x in iconListDict:
+                icon = QIcon()
+                print("[DEBUG] :/icons/icons/" + iconListDict[x])
+                icon.addFile(":/icons/icons/" + iconListDict[x], QSize(), QIcon.Mode.Normal)
+                window.currentIcon = window.iconSelectMenu.addAction(icon, "This is a WIP. Contribute please :)")
+    except Exception as e:
+        errorHandler(e)
+    window.iconSelector.setMenu(window.iconSelectMenu)
     @Slot()
     def getHelp():
         window.stackedWidget.setCurrentIndex(6)
@@ -62,7 +86,7 @@ def firstLaunch(beLauncherVersion, configPath):
     @Slot()
     def startInstallation():
         nextPage()
-        install(window, configPath, app)
+        install(window, configPath, instancesDirectory, instancesDb)
     window.installButton.clicked.connect(startInstallation)
     ###---install() is located in another file (****NOT IMPLEMENTED YET****!!!!!!!!!)
     #Page 4 - Install screen

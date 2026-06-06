@@ -448,8 +448,8 @@ border-right: 1px solid #4b4b4b</string>
      <widget class="QLabel" name="youMaySkipDisclaimer">
       <property name="geometry">
        <rect>
-        <x>9</x>
-        <y>322</y>
+        <x>13</x>
+        <y>320</y>
         <width>105</width>
         <height>31</height>
        </rect>
@@ -880,21 +880,24 @@ border-right: 1px solid #4b4b4b</string>
      <widget class="QLabel" name="titleLabel">
       <property name="geometry">
        <rect>
-        <x>249</x>
-        <y>34</y>
-        <width>96</width>
-        <height>18</height>
+        <x>101</x>
+        <y>14</y>
+        <width>320</width>
+        <height>36</height>
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Installing&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Please wait while Bedrock Launcher downloads and sets up the requierd files&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="progressLabel">
       <property name="geometry">
        <rect>
-        <x>135</x>
-        <y>83</y>
+        <x>22</x>
+        <y>80</y>
         <width>81</width>
         <height>20</height>
        </rect>
@@ -909,9 +912,9 @@ border-right: 1px solid #4b4b4b</string>
      <widget class="QTextEdit" name="outputView">
       <property name="geometry">
        <rect>
-        <x>147</x>
+        <x>31</x>
         <y>111</y>
-        <width>315</width>
+        <width>418</width>
         <height>199</height>
        </rect>
       </property>
@@ -925,9 +928,9 @@ border-right: 1px solid #4b4b4b</string>
      <widget class="QProgressBar" name="progressBar">
       <property name="geometry">
        <rect>
-        <x>147</x>
+        <x>34</x>
         <y>326</y>
-        <width>325</width>
+        <width>432</width>
         <height>23</height>
        </rect>
       </property>
@@ -975,13 +978,13 @@ border-right: 1px solid #4b4b4b</string>
        <rect>
         <x>4</x>
         <y>1</y>
-        <width>126</width>
-        <height>359</height>
+        <width>475</width>
+        <height>66</height>
        </rect>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: #131416;
-border-right: 1px solid #4b4b4b</string>
+border-bottom: 1px solid #4b4b4b</string>
       </property>
       <property name="text">
        <string/>
@@ -990,10 +993,10 @@ border-right: 1px solid #4b4b4b</string>
      <widget class="QLabel" name="beLauncherImage_2">
       <property name="geometry">
        <rect>
-        <x>14</x>
-        <y>131</y>
-        <width>102</width>
-        <height>106</height>
+        <x>27</x>
+        <y>8</y>
+        <width>51</width>
+        <height>48</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1003,6 +1006,14 @@ border-right: 1px solid #4b4b4b</string>
        <string/>
       </property>
      </widget>
+     <zorder>optLine_3</zorder>
+     <zorder>progressLabel</zorder>
+     <zorder>outputView</zorder>
+     <zorder>progressBar</zorder>
+     <zorder>cancelButton</zorder>
+     <zorder>imageArea_4</zorder>
+     <zorder>beLauncherImage_2</zorder>
+     <zorder>titleLabel</zorder>
     </widget>
     <widget class="QWidget" name="allDonePage">
      <widget class="Line" name="optLine_4">
@@ -1189,8 +1200,8 @@ border-right: 1px solid #4b4b4b</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>321</width>
-         <height>470</height>
+         <width>287</width>
+         <height>506</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">

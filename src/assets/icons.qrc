@@ -25,4 +25,8 @@
     <file>images/mc-button-left.png</file>
     <file>images/placeholder-art.jpg</file>
   </qresource>
+  <qresource prefix="icons">
+    <file>icons/default.png</file>
+    <file>icons/bookshelf.png</file>
+  </qresource>
 </RCC>

@@ -7,6 +7,8 @@ import os
 import traceback
 import sys
 import tarfile
+import shutil
+import json
 
 class WorkerSignals(QObject):
     finished = Signal(tuple)
@@ -28,20 +30,18 @@ class Worker(QRunnable):
             self.fn(*self.args, **self.kwargs)
         except Exception as e:
             self.signals.error.emit(e)
-        ###self.signals.finished.emit(self.threadId)
        
 
 @Slot()
-def install(window, configPath, app):
+def install(window, configPath, instancesDirectory, instancesDb):
     threadId = 0
-    ###exctype, value = "0", "0"
     threadCount = window.threadpool.maxThreadCount()
+    errorOcurred = 0
 
 
     #####Error handling#####
     def errorHandler(e):
         #Display error message (Not implemented)
-        ###sys.exit()
         print("An error has ocurred: " + str(e))
         QApplication.quit()
 
@@ -58,7 +58,6 @@ def install(window, configPath, app):
         window.outputView.append(f"Found umu-launcher version {umuVersion}")
     except Exception as e:
         window.outuptView.append("Failed umu-launcher check. The installer can't continue." + str(e))
-        ###sys.exit()
         errorHandler(e)
     
     #Determine necessary files
@@ -77,6 +76,68 @@ def install(window, configPath, app):
         window.outputView.append("Success!")
     except Exception as jvmCheckFailed:
        window.outputView.append("[WARNING] Java check failed:" + str(jvmCheckFailed))
+
+    #####Configure the initial installation#####
+    #Flow:
+    # 1. Make instancesDirectory
+    # 2. Get and freeze necessary data
+    # 3. Copy necessary files and validate (threaded)
+    #initialInstallationData -> contains data from the initial installation setup
+    #setupInitialInstallation() -> copy and validate files
+    #printResultProtonGDK() -> prints the result to the outputView text edit
+    #setupInitialInstallationThreaded() -> spawns a new thread and runs setupInitialInstallation() there. (See the Worker() class on top of the file for more info)
+    #Note: Many features are still unimplemented
+    #Prepare the provided files
+    window.outputView.append("Configuring first installation")
+    os.mkdir(instancesDirectory)
+        #Freeze the variables
+    installSelectedFolder = window.pathFolderLineEdit.text()
+    installName = window.nameLineEdit.text()
+    installVersion = window.versionComboBox.currentText()
+
+    initialInstallationData = {
+        "selectedFolder": installSelectedFolder,
+        "name": installName,
+        "version": installVersion 
+        #"icon": 
+    }
+    def setupInitialInstallation(initialInstallationData):
+        destDir = f"{instancesDirectory}/{initialInstallationData['name']}/"
+        # PRINT IS NOT THREAD SAFE print("[DEBUG] destDir = " + destDir)
+        try:
+            shutil.copytree(initialInstallationData["selectedFolder"], destDir)
+        #except FileExistsError:
+            #purgeInstallation()
+        #    print("[WARNING] An error that was supposed to be handled was raised, but does not have any handling logic.")
+        except Exception as e:
+            errorHandler(e)
+        
+        #Validate that Minecraft.Windows.exe is present
+        if not os.path.isfile(f"{instancesDirectory}/{initialInstallationData["name"]}/Minecraft.Windows.exe"):
+            window.installWorker.signals.progress.emit(("[WARNING] Minecraft.Windows.exe binary not found in the initial installation. Reverting (Not implemented)",))
+            error = 1 #So far, errorOcurred does nothing, I have to find a way to send it back
+        else:
+            with open(instancesDb, "wt") as instancesJson:
+                try:
+                    nameToWrite = initialInstallationData["name"]
+                    dataToWrite = {
+                        nameToWrite: initialInstallationData #Name from the initialInstallationData dict is also passed, will fix
+                    }
+                    instancesJson.write(json.dumps(dataToWrite, indent=4))
+                    window.installWorker.signals.progress.emit((f"Installation metadata saved to {instancesDb}",))
+                except Exception as e:
+                    raise(e)
+            window.installWorker.signals.progress.emit((f"Configured installation {initialInstallationData['name']}",))
+    def printResultSetupInitialInstallation(dataTuple):
+        window.outputView.append(f"[INFO] {dataTuple[0]}")
+    def setupInitialInstallationThreaded(fn):
+        window.installWorker = Worker(fn, initialInstallationData)
+        window.outputView.append(f"Installing {initialInstallationData["name"]}")
+        window.threadpool.start(window.installWorker)
+        window.installWorker.signals.progress.connect(printResultSetupInitialInstallation)
+        window.installWorker.signals.finished.connect(printResultSetupInitialInstallation) #Abstract this please (well, it's kinda abstracted, so maybe we can keep it as is, at least until beta)
+        window.installWorker.signals.error.connect(errorHandler)
+    ###########################################################################################################
 
     #####Make "/tools/"#####
     toolsFolder = configPath + "/tools"
@@ -123,6 +184,7 @@ def install(window, configPath, app):
     #printResultProxyPass() -> prints the result to the outputView text edit
     #downloadProxyPassThreaded() -> spawns a new thread and runs downloadProxyPass() there. (See the Worker() class on top of the file for more info)
     def downloadProxyPass(configPath):
+        #!!!!!!!!!!!!!PENDING: download the required proxypass according to the version of the first installation
         proxyPassUrl = "https://github.com/Kas-tle/ProxyPass/releases/download/master-65/ProxyPass.jar"
         try:
             proxyPassJar = requests.get(proxyPassUrl)
@@ -145,8 +207,49 @@ def install(window, configPath, app):
         window.worker.signals.finished.connect(printResultProxyPass)
     ###########################################################################################################
     
-    downloadProtonGDKThreaded(downloadProtonGDK)
+    #####Download XCurl#####
+    # -> the main downloading logic
+    # -> prints the result to the outputView text edit
+    # -> spawns a new thread and runs a() there. (See the Worker() class on top of the file for more info)
+    def downloadXCurlandCaCert(configPath):
+        xcurlUrl = "https://mirror.msys2.org/mingw/mingw64/mingw-w64-x86_64-curl-8.17.0-1-any.pkg.tar.zst"
+        try:
+            xcurlArchPackage = requests.get(xcurlUrl)
+        except Exception as e:
+            raise(e)
+        xcurlTmpFolder = configPath + "/tmp/"
+        if not os.path.exists(xcurlTmpFolder):
+            os.makedirs(xcurlTmpFolder)
+        try:
+            open(xcurlTmpFolder + "mingw-x64-curl.pkg.tar.zst", 'wb').write(xcurlArchPackage.content)
+        except Exception:
+            raise(e)
+        
+        caCertUrl = "https://curl.se/ca/cacert.pem"
+        try:
+            caCert = requests.get(caCertUrl)
+        except Exception as e:
+            raise(e)
+        try:
+            open(xcurlTmpFolder + "ca-bundle.crt", 'wb').write(caCert.content)
+            #window.worker.signals.finished.emit(threadId)
+        except Exception:
+            raise(e)
+        ###Move the files
+    @Slot()
+    def printResultProxyPass(threadId):
+        window.outputView.append(f"Finished downloading ProxyPass. On thread {threadId}.")
+    def downloadProxyPassThreaded(fn):
+        window.worker = Worker(fn, configPath)
+        window.threadpool.start(window.worker)
+        window.worker.signals.finished.connect(printResultProxyPass)
+    ###########################################################################################################
+    #downloadProtonGDKThreaded(downloadProtonGDK)
     if proxyPass:
         downloadProxyPassThreaded(downloadProxyPass)
-    #if xcurl:
+    if not initialInstallationData["selectedFolder"] == "":
+        setupInitialInstallationThreaded(setupInitialInstallation)
+    #if xcurl and createNewInstance:
     #    downloadXCurlThreaded()
+    #if not errorOcurred == "0"
+    #    showDisclaimerOfNonFatalErrors()
