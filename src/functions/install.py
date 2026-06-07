@@ -65,9 +65,14 @@ def install(window, configPath, instancesDirectory, instancesDb):
     xcurl = window.xcurlConsentCheck.isChecked()
     proxyPass = window.proxyPassConsentCheck.isChecked()
     educationEdition = window.educationConsentCheck.isChecked()
+    if not window.pathFolderLineEdit.text() == "":
+        createNewInstance = True
+    else:
+        createNewInstance = False
     window.outputView.append(f"XCurl: {xcurl}")
     window.outputView.append(f"ProxyPass: {proxyPass}")
     window.outputView.append(f"Education Edition: {educationEdition}")
+    window.outputView.append(f"Create instance: {createNewInstance}")
 
     #Check JVM availability
     window.outputView.append("Checking for JVM...")
@@ -102,8 +107,8 @@ def install(window, configPath, instancesDirectory, instancesDb):
         #"icon": 
     }
     def setupInitialInstallation(initialInstallationData):
-        destDir = f"{instancesDirectory}/{initialInstallationData['name']}/"
-        # PRINT IS NOT THREAD SAFE print("[DEBUG] destDir = " + destDir)
+        destDir = f"{instancesDirectory}/{initialInstallationData['name']}/binaries"
+        window.installWorker.signals.progress.emit((f"[DEBUG] destDir = {destDir}",))
         try:
             shutil.copytree(initialInstallationData["selectedFolder"], destDir)
         #except FileExistsError:
@@ -113,15 +118,20 @@ def install(window, configPath, instancesDirectory, instancesDb):
             errorHandler(e)
         
         #Validate that Minecraft.Windows.exe is present
-        if not os.path.isfile(f"{instancesDirectory}/{initialInstallationData["name"]}/Minecraft.Windows.exe"):
+        if not os.path.isfile(f"{destDir}/Minecraft.Windows.exe"):
             window.installWorker.signals.progress.emit(("[WARNING] Minecraft.Windows.exe binary not found in the initial installation. Reverting (Not implemented)",))
+            #revertInstallation() -> add createNewInstance = False plz
             error = 1 #So far, errorOcurred does nothing, I have to find a way to send it back
         else:
             with open(instancesDb, "wt") as instancesJson:
                 try:
-                    nameToWrite = initialInstallationData["name"]
+                    formattedData = {
+                        "path": f"{instancesDirectory}/{initialInstallationData['name']}/",
+                        "version": installVersion
+                        #"icon": icon
+                    }
                     dataToWrite = {
-                        nameToWrite: initialInstallationData #Name from the initialInstallationData dict is also passed, will fix
+                        initialInstallationData["name"]: formattedData
                     }
                     instancesJson.write(json.dumps(dataToWrite, indent=4))
                     window.installWorker.signals.progress.emit((f"Installation metadata saved to {instancesDb}",))
@@ -185,6 +195,7 @@ def install(window, configPath, instancesDirectory, instancesDb):
     #downloadProxyPassThreaded() -> spawns a new thread and runs downloadProxyPass() there. (See the Worker() class on top of the file for more info)
     def downloadProxyPass(configPath):
         #!!!!!!!!!!!!!PENDING: download the required proxypass according to the version of the first installation
+        window.worker.signals.progress.emit(("Downloading ProxyPass",))
         proxyPassUrl = "https://github.com/Kas-tle/ProxyPass/releases/download/master-65/ProxyPass.jar"
         try:
             proxyPassJar = requests.get(proxyPassUrl)
@@ -195,15 +206,16 @@ def install(window, configPath, instancesDirectory, instancesDb):
             os.makedirs(proxyPassFolder)
         try:
             open(os.path.expanduser(proxyPassFolder) + "ProxyPass.jar", 'wb').write(proxyPassJar.content)
-            window.worker.signals.finished.emit(threadId)
+            window.worker.signals.progress.emit(("Finished downloading ProxyPass.",))
         except Exception:
             raise(e)
     @Slot()
-    def printResultProxyPass(threadId):
-        window.outputView.append(f"Finished downloading ProxyPass. On thread {threadId}.")
+    def printResultProxyPass(dataTuple):
+        window.outputView.append(f"[INFO] {dataTuple[0]}")
     def downloadProxyPassThreaded(fn):
         window.worker = Worker(fn, configPath)
         window.threadpool.start(window.worker)
+        window.worker.signals.progress.connect(printResultProxyPass)
         window.worker.signals.finished.connect(printResultProxyPass)
     ###########################################################################################################
     
@@ -214,42 +226,62 @@ def install(window, configPath, instancesDirectory, instancesDb):
     def downloadXCurlandCaCert(configPath):
         xcurlUrl = "https://mirror.msys2.org/mingw/mingw64/mingw-w64-x86_64-curl-8.17.0-1-any.pkg.tar.zst"
         try:
+            window.xcurlWorker.signals.progress.emit((f"Downloading mingw64-curl",))
             xcurlArchPackage = requests.get(xcurlUrl)
         except Exception as e:
             raise(e)
-        xcurlTmpFolder = configPath + "/tmp/"
+        xcurlTmpFolder = configPath + "/.tmp"
         if not os.path.exists(xcurlTmpFolder):
             os.makedirs(xcurlTmpFolder)
+            window.xcurlWorker.signals.progress.emit((f"Created directory: {xcurlTmpFolder}",))
         try:
-            open(xcurlTmpFolder + "mingw-x64-curl.pkg.tar.zst", 'wb').write(xcurlArchPackage.content)
+            open(xcurlTmpFolder + "/mingw-x64-curl.pkg.tar.zst", 'wb').write(xcurlArchPackage.content)
+            window.xcurlWorker.signals.progress.emit((f"Downloaded mingw64-curl",))
         except Exception:
             raise(e)
         
         caCertUrl = "https://curl.se/ca/cacert.pem"
         try:
+            window.xcurlWorker.signals.progress.emit((f"Downloading ca-bundle.crt (cacert.pem) from {caCertUrl}",))
             caCert = requests.get(caCertUrl)
         except Exception as e:
             raise(e)
         try:
-            open(xcurlTmpFolder + "ca-bundle.crt", 'wb').write(caCert.content)
-            #window.worker.signals.finished.emit(threadId)
+            open(xcurlTmpFolder + "/ca-bundle.crt", 'wb').write(caCert.content)
+            window.xcurlWorker.signals.progress.emit((f"Downloaded ca-bundle.pem",))
         except Exception:
             raise(e)
         ###Move the files
+        destDir = f"{instancesDirectory}/{initialInstallationData['name']}/etc/ssl/certs"
+        #Mingw
+        #cacert
+        try:
+            os.makedirs(destDir)
+
+            window.xcurlWorker.signals.progress.emit((f"Created {destDir}",))
+            shutil.move(f"{xcurlTmpFolder}/ca-bundle.crt", f"{destDir}/ca-bundle.crt")
+            window.xcurlWorker.signals.progress.emit((f"Configured ca-bundle.pem (Moved from {xcurlTmpFolder}/ca-bundle.crt to {destDir}/ca-bundle.crt)",))
+        except Exception as e:
+            raise(e)
+        #Clear /.tmp (do not delete /.tmp, just clear it's contents)
+        #clearTmp() xd
     @Slot()
-    def printResultProxyPass(threadId):
-        window.outputView.append(f"Finished downloading ProxyPass. On thread {threadId}.")
-    def downloadProxyPassThreaded(fn):
-        window.worker = Worker(fn, configPath)
-        window.threadpool.start(window.worker)
-        window.worker.signals.finished.connect(printResultProxyPass)
+    def printResultXcurl(dataTuple):
+        window.outputView.append(f"[INFO] {dataTuple[0]}") #This can be abstracted to be a single function and not one er install flow, to do.
+    def downloadXcurlThreaded(fn):
+        window.xcurlWorker = Worker(fn, configPath)
+        window.threadpool.start(window.xcurlWorker)
+        window.xcurlWorker.signals.progress.connect(printResultXcurl)
+        window.xcurlWorker.signals.finished.connect(printResultXcurl)
     ###########################################################################################################
-    #downloadProtonGDKThreaded(downloadProtonGDK)
+    downloadProtonGDKThreaded(downloadProtonGDK)
     if proxyPass:
         downloadProxyPassThreaded(downloadProxyPass)
-    if not initialInstallationData["selectedFolder"] == "":
+    if createNewInstance:
         setupInitialInstallationThreaded(setupInitialInstallation)
     #if xcurl and createNewInstance:
-    #    downloadXCurlThreaded()
+    downloadXcurlThreaded(downloadXCurlandCaCert)
+    #if educationEdition:
+    #    setupEducationEdition()
     #if not errorOcurred == "0"
     #    showDisclaimerOfNonFatalErrors()
