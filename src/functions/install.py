@@ -126,7 +126,7 @@ def install(window, configPath, instancesDirectory, instancesDb):
             with open(instancesDb, "wt") as instancesJson:
                 try:
                     formattedData = {
-                        "path": f"{instancesDirectory}/{initialInstallationData['name']}/",
+                        "path": f"{instancesDirectory}/{initialInstallationData['name']}",
                         "version": installVersion
                         #"icon": icon
                     }
