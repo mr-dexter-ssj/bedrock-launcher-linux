@@ -11,7 +11,7 @@ import shutil
 import json
 
 class WorkerSignals(QObject):
-    finished = Signal(tuple)
+    finished = Signal(object)
     error = Signal(object)
     result = Signal(object)
     progress = Signal(tuple)
@@ -36,16 +36,19 @@ class Worker(QRunnable):
 def install(window, configPath, instancesDirectory, instancesDb):
     threadId = 0
     threadCount = window.threadpool.maxThreadCount()
-    errorOcurred = 0
-
-
-    #####Error handling#####
+    errorList = []
+    
+    #####Misc functions#####
+    ##Error handling
     def errorHandler(e):
         #Display error message (Not implemented)
         print("An error has ocurred: " + str(e))
         QApplication.quit()
+    ##Printing logs to window.outputView
+    def logResult(dataTuple):
+        window.outputView.append(f"[INFO] {dataTuple[0]}")
+    ###########################################################################################################
 
-    
     #Configure starting date-time
     window.outputView.append(f"[{str(datetime.datetime.now())[:-7]}] {window.outputView.placeholderText()}")
     window.outputView.append(f"[DEBUG] Multithreading with maximum {threadCount} threads")
@@ -121,32 +124,30 @@ def install(window, configPath, instancesDirectory, instancesDb):
         if not os.path.isfile(f"{destDir}/Minecraft.Windows.exe"):
             window.installWorker.signals.progress.emit(("[WARNING] Minecraft.Windows.exe binary not found in the initial installation. Reverting (Not implemented)",))
             #revertInstallation() -> add createNewInstance = False plz
-            error = 1 #So far, errorOcurred does nothing, I have to find a way to send it back
+            #########################window.installWorker.signals.error.emit("Installation of Minecraft binaries reverted because Minecraft.Windows.exe was not found.") #So far, errorOcurred does nothing, I have to find a way to send it back
         else:
             with open(instancesDb, "wt") as instancesJson:
-                try:
-                    formattedData = {
-                        "path": f"{instancesDirectory}/{initialInstallationData['name']}",
-                        "version": installVersion
-                        #"icon": icon
-                    }
-                    dataToWrite = {
-                        initialInstallationData["name"]: formattedData
-                    }
-                    instancesJson.write(json.dumps(dataToWrite, indent=4))
-                    window.installWorker.signals.progress.emit((f"Installation metadata saved to {instancesDb}",))
-                except Exception as e:
-                    raise(e)
+                formattedData = {
+                    "path": f"{instancesDirectory}/{initialInstallationData['name']}",
+                    "version": installVersion
+                    #"icon": icon
+                }
+                dataToWrite = {
+                    initialInstallationData["name"]: formattedData
+                }
+                instancesJson.write(json.dumps(dataToWrite, indent=4))
+                window.installWorker.signals.progress.emit((f"Installation metadata saved to {instancesDb}",))
             window.installWorker.signals.progress.emit((f"Configured installation {initialInstallationData['name']}",))
-    def printResultSetupInitialInstallation(dataTuple):
-        window.outputView.append(f"[INFO] {dataTuple[0]}")
+            window.installWorker.signals.finished.emit(downloadXCurlandCaCert)
+    #def printResultSetupInitialInstallation(dataTuple):
+    #    window.outputView.append(f"[INFO] {dataTuple[0]}")
     def setupInitialInstallationThreaded(fn):
         window.installWorker = Worker(fn, initialInstallationData)
         window.outputView.append(f"Installing {initialInstallationData["name"]}")
         window.threadpool.start(window.installWorker)
-        window.installWorker.signals.progress.connect(printResultSetupInitialInstallation)
-        window.installWorker.signals.finished.connect(printResultSetupInitialInstallation) #Abstract this please (well, it's kinda abstracted, so maybe we can keep it as is, at least until beta)
-        window.installWorker.signals.error.connect(errorHandler)
+        #window.installWorker.signals.progress.connect(printResultSetupInitialInstallation)
+        window.installWorker.signals.progress.connect(logResult)
+        ###############window.installWorker.signals.error.connect(errorList.append)
     ###########################################################################################################
 
     #####Make "/tools/"#####
@@ -161,31 +162,29 @@ def install(window, configPath, instancesDirectory, instancesDb):
     #downloadProtonGDKThreaded() -> spawns a new thread and runs downloadProtonGDK() there. (See the Worker() class on top of the file for more info)
     #Note: This downloads the latest fix of ProtonGDK (lucaspah fork) and extracts it. If needed, this can be changed to a .json database.
     def downloadProtonGDK(configPath):
+        window.protonWorker.signals.progress.emit(("Downloading ProtonGDK",))
         protonGDKLink = "https://github.com/LukasPAH/GDK-Proton-Custom/releases/download/release-10-32-3/GDK-Proton10-32-Custom-3.tar.gz"
-        try:
-            protonGDKTarGz = requests.get(protonGDKLink)
-        except Exception as e:
-            raise(e)
+        protonGDKTarGz = requests.get(protonGDKLink)
         protonGDKFolder = toolsFolder + "/ProtonGDK/"
+
         if not os.path.exists(protonGDKFolder):
             os.mkdir(protonGDKFolder)
-        try:
-            open(os.path.expanduser(protonGDKFolder) + "ProtonGDK.tar.gz", 'wb').write(protonGDKTarGz.content)
-            window.protonWorker.signals.finished.emit(threadId)
-        except Exception as e:
-            raise(e)
-        try:
-            tarfileProtonGDK = tarfile.open(protonGDKFolder + "ProtonGDK.tar.gz")
-            tarfileProtonGDK.extractall(protonGDKFolder + "ProtonGDK")
-            tarfileProtonGDK.close()
-        except Exception as e:
-            raise(e)
-    def printResultProtonGDK():
-        window.outputView.append("Finished downloading ProtonGDK (lucaspah fork)")
+
+        open(os.path.expanduser(protonGDKFolder) + "ProtonGDK.tar.gz", 'wb').write(protonGDKTarGz.content)
+        window.protonWorker.signals.progress.emit(("Finished downloading ProtonGDK",))
+
+        window.protonWorker.signals.progress.emit(("Extracting ProtonGDK",))
+        tarfileProtonGDK = tarfile.open(protonGDKFolder + "ProtonGDK.tar.gz")
+        tarfileProtonGDK.extractall(protonGDKFolder + "ProtonGDK")
+        tarfileProtonGDK.close()
+        window.protonWorker.signals.progress.emit(("Configured ProtonGDK",))
+    #def printResultProtonGDK(dataTuple):
+    #    window.outputView.append(f"[INFO] {dataTuple[0]}")
     def downloadProtonGDKThreaded(fn):
         window.protonWorker = Worker(fn, configPath)
         window.threadpool.start(window.protonWorker)
-        window.protonWorker.signals.finished.connect(printResultProtonGDK)
+        #window.protonWorker.signals.progress.connect(printResultProtonGDK)
+        window.protonWorker.signals.progress.connect(logResult)
         window.protonWorker.signals.error.connect(errorHandler)
     ###########################################################################################################
 
@@ -197,26 +196,23 @@ def install(window, configPath, instancesDirectory, instancesDb):
         #!!!!!!!!!!!!!PENDING: download the required proxypass according to the version of the first installation
         window.worker.signals.progress.emit(("Downloading ProxyPass",))
         proxyPassUrl = "https://github.com/Kas-tle/ProxyPass/releases/download/master-65/ProxyPass.jar"
-        try:
-            proxyPassJar = requests.get(proxyPassUrl)
-        except Exception as e:
-            raise(e)
+        proxyPassJar = requests.get(proxyPassUrl)
+
         proxyPassFolder = toolsFolder + "/ProxyPass/"
         if not os.path.exists(proxyPassFolder):
             os.makedirs(proxyPassFolder)
-        try:
-            open(os.path.expanduser(proxyPassFolder) + "ProxyPass.jar", 'wb').write(proxyPassJar.content)
-            window.worker.signals.progress.emit(("Finished downloading ProxyPass.",))
-        except Exception:
-            raise(e)
-    @Slot()
-    def printResultProxyPass(dataTuple):
-        window.outputView.append(f"[INFO] {dataTuple[0]}")
+
+        open(os.path.expanduser(proxyPassFolder) + "ProxyPass.jar", 'wb').write(proxyPassJar.content)
+        window.worker.signals.progress.emit(("Finished downloading ProxyPass.",))
+    #@Slot()
+    #def printResultProxyPass(dataTuple):
+    #    window.outputView.append(f"[INFO] {dataTuple[0]}")
     def downloadProxyPassThreaded(fn):
         window.worker = Worker(fn, configPath)
         window.threadpool.start(window.worker)
-        window.worker.signals.progress.connect(printResultProxyPass)
-        window.worker.signals.finished.connect(printResultProxyPass)
+        #window.worker.signals.progress.connect(printResultProxyPass)
+        window.worker.signals.progress.connect(logResult)
+        #window.worker.signals.finished.connect(printResultProxyPass)
     ###########################################################################################################
     
     #####Download XCurl#####
@@ -225,62 +221,62 @@ def install(window, configPath, instancesDirectory, instancesDb):
     # -> spawns a new thread and runs a() there. (See the Worker() class on top of the file for more info)
     def downloadXCurlandCaCert(configPath):
         xcurlUrl = "https://mirror.msys2.org/mingw/mingw64/mingw-w64-x86_64-curl-8.17.0-1-any.pkg.tar.zst"
-        try:
-            window.xcurlWorker.signals.progress.emit((f"Downloading mingw64-curl",))
-            xcurlArchPackage = requests.get(xcurlUrl)
-        except Exception as e:
-            raise(e)
+
+        window.xcurlWorker.signals.progress.emit((f"Downloading mingw64-curl",))
+        xcurlArchPackage = requests.get(xcurlUrl)
+
         xcurlTmpFolder = configPath + "/.tmp"
         if not os.path.exists(xcurlTmpFolder):
             os.makedirs(xcurlTmpFolder)
             window.xcurlWorker.signals.progress.emit((f"Created directory: {xcurlTmpFolder}",))
-        try:
-            open(xcurlTmpFolder + "/mingw-x64-curl.pkg.tar.zst", 'wb').write(xcurlArchPackage.content)
-            window.xcurlWorker.signals.progress.emit((f"Downloaded mingw64-curl",))
-        except Exception:
-            raise(e)
-        
+
+        open(xcurlTmpFolder + "/mingw-x64-curl.pkg.tar.zst", 'wb').write(xcurlArchPackage.content)
+        window.xcurlWorker.signals.progress.emit((f"Downloaded mingw64-curl",))
+
         caCertUrl = "https://curl.se/ca/cacert.pem"
-        try:
-            window.xcurlWorker.signals.progress.emit((f"Downloading ca-bundle.crt (cacert.pem) from {caCertUrl}",))
-            caCert = requests.get(caCertUrl)
-        except Exception as e:
-            raise(e)
-        try:
-            open(xcurlTmpFolder + "/ca-bundle.crt", 'wb').write(caCert.content)
-            window.xcurlWorker.signals.progress.emit((f"Downloaded ca-bundle.pem",))
-        except Exception:
-            raise(e)
+        window.xcurlWorker.signals.progress.emit((f"Downloading ca-bundle.crt (cacert.pem) from {caCertUrl}",))
+        caCert = requests.get(caCertUrl)
+
+        open(xcurlTmpFolder + "/ca-bundle.crt", 'wb').write(caCert.content)
+        window.xcurlWorker.signals.progress.emit((f"Downloaded ca-bundle.crt",))
+
         ###Move the files
         destDir = f"{instancesDirectory}/{initialInstallationData['name']}/etc/ssl/certs"
         #Mingw
         #cacert
-        try:
-            os.makedirs(destDir)
+        os.makedirs(destDir)
+        window.xcurlWorker.signals.progress.emit((f"Created {destDir}",))
+        shutil.move(f"{xcurlTmpFolder}/ca-bundle.crt", f"{destDir}/ca-bundle.crt")
+        window.xcurlWorker.signals.progress.emit((f"Configured ca-bundle.crt [DEBUG] (Moved from {xcurlTmpFolder}/ca-bundle.crt to {destDir}/ca-bundle.crt)",))
 
-            window.xcurlWorker.signals.progress.emit((f"Created {destDir}",))
-            shutil.move(f"{xcurlTmpFolder}/ca-bundle.crt", f"{destDir}/ca-bundle.crt")
-            window.xcurlWorker.signals.progress.emit((f"Configured ca-bundle.pem (Moved from {xcurlTmpFolder}/ca-bundle.crt to {destDir}/ca-bundle.crt)",))
-        except Exception as e:
-            raise(e)
         #Clear /.tmp (do not delete /.tmp, just clear it's contents)
         #clearTmp() xd
-    @Slot()
-    def printResultXcurl(dataTuple):
-        window.outputView.append(f"[INFO] {dataTuple[0]}") #This can be abstracted to be a single function and not one er install flow, to do.
+    #@Slot()
+    #def printResultXcurl(dataTuple):
+    #    window.outputView.append(f"[INFO] {dataTuple[0]}") #This can be abstracted to be a single function and not one er install flow, to do.
     def downloadXcurlThreaded(fn):
         window.xcurlWorker = Worker(fn, configPath)
         window.threadpool.start(window.xcurlWorker)
-        window.xcurlWorker.signals.progress.connect(printResultXcurl)
-        window.xcurlWorker.signals.finished.connect(printResultXcurl)
+        #window.xcurlWorker.signals.progress.connect(printResultXcurl)
+        window.xcurlWorker.signals.progress.connect(logResult)
+        #window.xcurlWorker.signals.finished.connect(printResultXcurl)
+    ###########################################################################################################
+
+    #####Download Education Edition#####
+    #downloadProxyPass() -> the main downloading logic
+    #printResultProxyPass() -> prints the result to the outputView text edit
+    #downloadProxyPassThreaded() -> spawns a new thread and runs downloadProxyPass() there. (See the Worker() class on top of the file for more info)
+    #def downloadEducationEdition():
+    #    api = theapilol
+    #    linkMatrix = requests.get()
     ###########################################################################################################
     downloadProtonGDKThreaded(downloadProtonGDK)
     if proxyPass:
         downloadProxyPassThreaded(downloadProxyPass)
     if createNewInstance:
         setupInitialInstallationThreaded(setupInitialInstallation)
-    #if xcurl and createNewInstance:
-    downloadXcurlThreaded(downloadXCurlandCaCert)
+    if xcurl:
+        window.installWorker.signals.finished.connect(downloadXcurlThreaded)
     #if educationEdition:
     #    setupEducationEdition()
     #if not errorOcurred == "0"
